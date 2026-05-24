@@ -74,11 +74,13 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
 	end,
 })
 
+local allowed_fts = { markdown = true, typst = true, norg = true }
+
 vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "BufEnter", "BufWritePost" }, {
 	group = cache_group,
 	callback = function(args)
 		local ft = vim.bo[args.buf].filetype
-		if ft == "markdown" or ft == "typst" or ft == "norg" or "tex" then
+		if allowed_fts[ft] then
 			wordcount_cache[args.buf] = string.format(" %d words", vim.fn.wordcount().words)
 		else
 			wordcount_cache[args.buf] = nil
