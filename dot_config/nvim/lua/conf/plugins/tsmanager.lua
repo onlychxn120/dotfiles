@@ -1,0 +1,62 @@
+return {
+	"romus204/tree-sitter-manager.nvim",
+	lazy = false,
+	config = function()
+		require("tree-sitter-manager").setup({
+			auto_install = false,
+			ensure_installed = {
+				"astro",
+				"bash",
+				"c",
+				"cmake",
+				"cpp",
+				"csv",
+				"diff",
+				"dockerfile",
+				"fish",
+				"git_config",
+				"git_rebase",
+				"gitattributes",
+				"gitcommit",
+				"gitignore",
+				"go",
+				"html",
+				"hyprlang",
+				"javascript",
+				"json",
+				"json5",
+				"jsx",
+				"lua",
+				"markdown",
+				"markdown_inline",
+				"mermaid",
+				"nginx",
+				"python",
+				"query",
+				"r",
+				"regex",
+				"rust",
+				"tmux",
+				"toml",
+				"tsv",
+				"tsx",
+				"typescript",
+				"typst",
+				"xml",
+				"vim",
+				"vimdoc",
+				"yaml",
+				"zsh",
+				"ninja",
+				"http",
+			},
+			parser_dir = vim.fn.stdpath("data") .. "/site/parser",
+		})
+
+		vim.api.nvim_create_autocmd("FileType", {
+			callback = function(args)
+				pcall(vim.treesitter.start, args.buf)
+			end,
+		})
+	end,
+}

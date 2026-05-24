@@ -1,0 +1,36 @@
+# zmodload zsh/zprof
+# p10k instant prompt
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+source $HOME/.local/share/zsh/envs.zsh
+
+# .zshrc - Interactive shell configuration
+[[ ! -o interactive ]] && return
+
+source $HOME/.local/share/zsh/aliases.zsh
+source $HOME/.local/share/zsh/shell.zsh
+
+autoload -Uz compinit
+# Only regenerate completions once a day to save massive time
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
+
+if [[ -s ${ZDOTDIR:-$HOME}/.zcompdump ]] && (! [[ -s ${ZDOTDIR:-$HOME}/.zcompdump.zwc ]] || [[ ${ZDOTDIR:-$HOME}/.zcompdump -nt ${ZDOTDIR:-$HOME}/.zcompdump.zwc ]]); then
+  zcompile ${ZDOTDIR:-$HOME}/.zcompdump
+fi
+
+source $HOME/.local/share/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
+
+source $HOME/.local/share/zsh/plugins/zsh-defer/zsh-defer.plugin.zsh
+zsh-defer source $HOME/.local/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+zsh-defer source $HOME/.local/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+zsh-defer source $HOME/.local/share/zsh/init.zsh
+
+source $HOME/.local/share/zsh/powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# zprof

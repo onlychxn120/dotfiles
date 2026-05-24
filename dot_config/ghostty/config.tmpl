@@ -1,0 +1,64 @@
+{{ if .is_linux }}
+# Dynamic theme colors
+config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
+{{ else }}
+theme = Tokyonight Night
+{{ end }}
+
+# Font
+font-family = "Terminess Nerd Font"
+font-style = Regular
+{{ if .is_linux }}
+font-size = 14
+{{ else }}
+font-size = 16
+{{ end }}
+freetype-load-flags = monochrome
+
+# Window
+window-theme = ghostty
+{{ if .is_linux }}
+window-padding-x = 0
+window-padding-y = 0
+{{ else }}
+window-padding-x = 8
+window-padding-y = 10
+adjust-cell-height = 15%
+{{ end }}
+confirm-close-surface=false
+resize-overlay = never
+{{ if .is_linux }}
+gtk-toolbar-style = flat
+{{ else }}
+macos-titlebar-style = transparent
+macos-non-native-fullscreen = true
+{{ end }}
+
+# Cursor styling
+cursor-style = "block"
+cursor-style-blink = false
+
+# Cursor styling + SSH session terminfo
+# (all shell integration options must be passed together)
+shell-integration-features = no-cursor,ssh-env
+shell-integration = zsh
+
+# Keyboard bindings
+keybind = shift+insert=paste_from_clipboard
+keybind = control+insert=copy_to_clipboard
+{{ if .is_linux }}
+keybind = super+control+shift+alt+arrow_down=resize_split:down,100
+keybind = super+control+shift+alt+arrow_up=resize_split:up,100
+keybind = super+control+shift+alt+arrow_left=resize_split:left,100
+keybind = super+control+shift+alt+arrow_right=resize_split:right,100
+{{ end }}
+
+# Slowdown mouse scrolling
+mouse-scroll-multiplier = precision:1,discrete:3
+
+{{ if .is_linux }}
+# Fix general slowness on hyprland (https://github.com/ghostty-org/ghostty/discussions/3224)
+async-backend = epoll
+{{ end }}
+
+auto-update = check

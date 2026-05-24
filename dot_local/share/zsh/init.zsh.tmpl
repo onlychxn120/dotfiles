@@ -1,0 +1,25 @@
+if command -v fnm &> /dev/null; then
+  eval "$(fnm env --use-on-cd --shell zsh)"  
+fi
+
+if command -v mise &> /dev/null; then
+    eval "$(mise activate zsh)"
+fi
+
+if command -v bun &> /dev/null; then
+  # bun completions
+  [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+fi
+
+if command -v fzf &> /dev/null; then
+  if [[ -f /usr/share/fzf/completion.zsh ]]; then
+    source /usr/share/fzf/completion.zsh
+  fi
+  if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
+    source /usr/share/fzf/key-bindings.zsh
+  fi
+fi
+
+{{ if .is_linux }}
+source "$HOME/.local/share/zsh/completions.zsh"
+{{ end }}

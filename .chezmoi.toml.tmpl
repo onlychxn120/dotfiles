@@ -1,0 +1,5 @@
+sourceDir = "{{ .chezmoi.homeDir }}/.config/dotfiles"
+
+[data]
+    is_mac = {{ eq .chezmoi.os "darwin" }}
+    is_linux = {{ eq .chezmoi.os "linux" }}
