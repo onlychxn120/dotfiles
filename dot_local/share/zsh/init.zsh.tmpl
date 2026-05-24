@@ -22,4 +22,6 @@ fi
 
 {{ if .is_linux }}
 source "$HOME/.local/share/zsh/completions.zsh"
+{{ else }}
+eval "$(/opt/homebrew/bin/brew shellenv)"
 {{ end }}
