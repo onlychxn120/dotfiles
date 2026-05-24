@@ -21,3 +21,25 @@
 *~
 Session.vim
 .netrwhist
+
+# =========================
+# Linux
+# =========================
+# File manager settings (KDE/Dolphin equivalent to .DS_Store)
+.directory
+
+# Trash folders on mounted drives and external USBs
+.Trash-*
+
+# FUSE (Filesystem in Userspace) hidden files, created when deleting an open file
+.fuse_hidden*
+
+# NFS (Network File System) hidden files, common if you mount drives across machines
+.nfs*
+
+# Core dumps (crash logs)
+core
+core.*
+
+# Alternative editor backups (Nano, Emacs, Gedit)
+*~
