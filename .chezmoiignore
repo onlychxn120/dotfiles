@@ -1,12 +1,10 @@
 README.md
 LICENSE
 .git/
+.config/waybar/scripts/.env
 
 {{ if not .is_linux }}
 .local/share/zsh/completions.zsh
-{{ end }}
-
-{{ if not .is_mac }}
 .config/hypr
 .config/waybar
 {{ end }}
