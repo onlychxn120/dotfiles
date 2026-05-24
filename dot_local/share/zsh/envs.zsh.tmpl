@@ -23,6 +23,9 @@ fi
 export NPM_CONFIG_USERCONFIG="$HOME/.config/npm/npmrc"
 export NPM_CONFIG_CACHE="$HOME/.cache/npm"
 
+export EDITOR="$HOME/.local/share/mise/shims/nvim"
+export VISUAL="$HOME/.local/share/mise/shims/nvim"
+
 {{ if .is_mac }}
 # brew binaries
 export PATH="/opt/homebrew/bin:$PATH"
