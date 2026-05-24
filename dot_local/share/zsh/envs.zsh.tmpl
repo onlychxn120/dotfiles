@@ -26,7 +26,7 @@ export NPM_CONFIG_CACHE="$HOME/.cache/npm"
 {{ if .is_mac }}
 # brew binaries
 export PATH="/opt/homebrew/bin:$PATH"
-
+export PATH="$PATH:/Applications/Obsidian.app/Contents/Macos"
 export PNPM_HOME="$HOME/Library/pnpm"
 
 {{ else }}
