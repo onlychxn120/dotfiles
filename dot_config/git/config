@@ -1,19 +1,16 @@
 [user]
     name = onlychen120
     email = chennanxing@proton.me
-{{ if .is_linux }}
-    signingkey = /home/onlychen/.ssh/github.pub
-{{ else }}
-    signingkey = /Users/nanxingchen/.ssh/github.pub
-{{ end }}
+    signingkey = ~/.ssh/github.pub
 [init]
-	defaultBranch = main
+    defaultBranch = main
 [pull]
 	rebase = true 			 # Rebase (instead of merge) on pull
 [push]
 	autoSetupRemote = true   # Automatically set upstream branch on push
 [core]
-    editor = nvim --clean
+    editor = nvim
+    excludesfile = ~/.gitignore_global
 [diff]
 	algorithm = histogram    # Clearer diffs on moved/edited lines
 	colorMoved = plain       # Highlight moved blocks in diffs
@@ -22,7 +19,7 @@
     gpgsign = true
 	verbose = true           # Include diff comment in commit message template
 [url "ssh://git@github.com"]
-    insteadOf = https://github.com/
+    pushInsteadOf = https://github.com/
 [column]
 	ui = auto 			     # Output in columns when possible
 [gpg]
