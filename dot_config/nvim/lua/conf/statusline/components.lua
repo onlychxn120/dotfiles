@@ -140,7 +140,7 @@ M.get_git = function()
 	if diff_str == "" then
 		return branch
 	end
-	return branch .. sep .. diff_str
+	return branch .. " · " .. diff_str
 end
 
 M.get_diagnostics = function()
