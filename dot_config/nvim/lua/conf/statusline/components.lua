@@ -172,6 +172,8 @@ M.get_filename = function()
 		return "[No Name]"
 	end
 
+	path = vim.fn.pathshorten(path)
+
 	local modified = vim.bo.modified and " %#WarningMsg#%#StatusLine#" or ""
 	local readonly = vim.bo.readonly and " " or ""
 

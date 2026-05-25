@@ -28,6 +28,14 @@ return {
 						engine = "nvim-cmp",
 					},
 				},
+				["core.ui.calendar"] = {},
+				["core.summary"] = {},
+				["core.export"] = {},
+				["core.export.markdown"] = {
+					config = {
+						extension = "all",
+					},
+				},
 			},
 		})
 		local snacks = require("snacks")
