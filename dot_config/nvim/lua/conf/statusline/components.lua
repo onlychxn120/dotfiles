@@ -194,9 +194,16 @@ M.get_breadcrumbs = function()
 end
 
 M.get_lazy_updates = function()
-	return (has_lazy and lazy_status.has_updates())
-			and string.format("%%#WarningMsg#%s%%#StatusLine#", lazy_status.updates())
-		or ""
+	if has_lazy and type(lazy_status.has_updates) == "function" then
+		if lazy_status.has_updates() then
+			local update_str = lazy_status.updates()
+			if type(update_str) == "string" then
+				return string.format("%%#WarningMsg#%s%%#StatusLine#", update_str)
+			end
+		end
+	end
+
+	return ""
 end
 
 M.get_wordcount = function()
