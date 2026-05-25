@@ -1,4 +1,10 @@
+# Prevent double-sourcing loop
+if [[ -n "$_ENVS_SOURCED" ]]; then return; fi
+export _ENVS_SOURCED=1
+
 # Editor used by CLI
+export EDITOR="nvim"
+export VISUAL="nvim"
 export SUDO_EDITOR="$EDITOR"
 export BAT_THEME=ansi
 
@@ -44,7 +50,6 @@ export PATH=$HOME/.opencode/bin:$PATH
 # pnpm
 export PNPM_HOME="$HOME/.local/share/pnpm"
 {{ end }}
-
 case ":$PATH:" in
 *":$PNPM_HOME:"*) ;;
 *) export PATH="$PNPM_HOME:$PATH" ;;
