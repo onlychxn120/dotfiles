@@ -5,7 +5,7 @@ return {
 		require("autolist").setup()
 
 		-- Automatically add list items on Enter in insert mode
-		vim.keymap.set("i", "<CR>", "<CR><cmd>AutolistNewBullet<cr>")
+		vim.keymap.set("i", "<S-CR>", "<CR><cmd>AutolistNewBullet<cr>")
 
 		-- Automatically add list items with 'o' and 'O' in normal mode
 		vim.keymap.set("n", "o", "o<cmd>AutolistNewBullet<cr>")
