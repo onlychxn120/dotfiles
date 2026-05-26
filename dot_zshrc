@@ -9,7 +9,6 @@ fi
 
 source $HOME/.local/share/zsh/aliases.zsh
 source $HOME/.local/share/zsh/shell.zsh
-
 source $HOME/.local/share/zsh/init.zsh
 
 autoload -Uz compinit
@@ -39,4 +38,6 @@ zsh-defer source $HOME/.local/share/zsh/plugins/fast-syntax-highlighting/fast-sy
 
 source $HOME/.local/share/zsh/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+typeset -U PATH path
 # zprof

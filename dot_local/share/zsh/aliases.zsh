@@ -43,9 +43,9 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 # Tools
-alias cuned='g++ --std=c++03'
-alias g++='g++ --std=c++20'
-alias cat='bat'
+alias cuned='g++ --std=c++11'
+alias gst='g++ --std=c++20'
+alias c='bat'
 alias oc='opencode'
 alias d='docker'
 alias t='tmux attach || tmux new -s Work'

@@ -16,10 +16,6 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# fnm
-export FNM_COREPACK_ENABLED=true
-
-
 # External environment setup scripts
 if [[ -f "$HOME/.local/bin/env" ]]; then
   source "$HOME/.local/bin/env"
