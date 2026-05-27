@@ -57,3 +57,8 @@ alias g='git'
 alias gcm='git commit -m'
 alias gcam='git commit -a -m'
 alias gcad='git commit -a --amend'
+
+{{ if .is_linux }}
+alias gyro='joycond-cemuhook > /dev/null 2>&1 &'
+alias sgyro='pkill -f joycond-cemuhook'
+{{ end }}

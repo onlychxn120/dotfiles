@@ -1,7 +1,8 @@
 return {
 	"nvim-neorg/neorg",
 	version = "*",
-	lazy = false,
+	ft = "norg",
+	cmd = "Neorg",
 	dependencies = {
 		"nvim-neorg/tree-sitter-norg",
 		"nvim-neorg/tree-sitter-norg-meta",
