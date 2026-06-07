@@ -1,50 +1,54 @@
 # Neovim Configuration
 
-A modern Neovim setup built with `lazy.nvim`, focused on fast startup, sensible defaults, and a clean coding workflow.
+Personal Neovim config built with `lazy.nvim`, centered on a lightweight UI, LSP workflow, and writing support (Markdown/Neorg/Typst).
 
-This config includes:
-- LSP (via `nvim-lspconfig` + Mason-managed tools)
-- Formatting on save (`conform.nvim`)
-- UI, file explorer, and pickers (`snacks.nvim`)
-- UI enhancements (`noice.nvim`)
-- Completion (`nvim-cmp`)
-- Notes and org-mode (`neorg`)
-- Document writing support (`typst`)
-- Tree-sitter highlighting and parsing (`tree-sitter-manager.nvim`)
+## Highlights
+
+- Plugin management with `lazy.nvim`
+- LSP via `nvim-lspconfig` + `mason.nvim` + `mason-lspconfig.nvim`
+- Completion via `blink.cmp` + `LuaSnip` + `lazydev.nvim`
+- Formatting with `conform.nvim` (format on save)
+- Linting with `nvim-lint` (Markdown via `markdownlint`)
+- File explorer, picker, terminal, notifications, and lazygit integration via `snacks.nvim`
+- Extra UX: `noice.nvim`, custom global statusline, `gitsigns.nvim`, `nvim-navic`
+- Writing stack: `neorg`, `render-markdown.nvim`, `autolist.nvim`, Typst preview
+- Tree-sitter parsing via `tree-sitter-manager.nvim`
 
 ---
 
 ## Requirements
 
 ### Core
-- **Neovim 0.12 nightly or newer**
-- `git` (2.19+ recommended)
-- `curl`
-- `tar`
-- C compiler (`clang` or `gcc`) for parser builds
+- Neovim nightly/newer APIs (config currently uses features around `0.12+`)
+- `git`
+- `curl` and `tar`
+- C compiler (`clang` or `gcc`) for native/parser builds
+- `ripgrep` (`rg`) for grep integrations (`grepprg = "rg --vimgrep"`)
 
 ### Recommended
 - [Nerd Font](https://www.nerdfonts.com/) for icons
-- `tree-sitter-cli` (recommended for parser tooling)
+- `tree-sitter-cli`
+- `lazygit` (enables `<leader>gg`)
+- `markdown-toc` CLI (used by `<leader>tc`)
 
-### Optional language toolchains
-Depending on what you code in:
-- `npm` and `node` (for many JS/TS-based language servers)
-- `python` and `pip` (for Python tooling)
-- `cargo` (for Rust)
+### Optional tooling (per language/workflow)
+- LSP servers via Mason (example set below)
+- Formatters: `stylua`, `clang-format`, `goimports`, `gofmt`, `prettierd`, `typstyle`, `ruff`
+- Typst: `tinymist`
+- Live server plugin global install uses `pnpm install -g live-server`
 
 ---
 
 ## Installation
 
 ```bash
-# 1) Backup existing config (optional but recommended)
+# optional backup
 mv ~/.config/nvim ~/.config/nvim.bak
 
-# 2) Clone this config
+# clone
 git clone git@github.com:onlychxn120/nvim.git ~/.config/nvim
 
-# 3) Start Neovim
+# launch
 nvim
 ```
 
@@ -52,9 +56,9 @@ On first launch, `lazy.nvim` installs plugins automatically.
 
 ---
 
-## First Run Checklist
+## First Run
 
-Run these commands inside Neovim after installation:
+Run these inside Neovim:
 
 ```vim
 :Lazy
@@ -63,100 +67,108 @@ Run these commands inside Neovim after installation:
 :TSManager
 ```
 
-What they do:
-- `:Lazy` confirms plugin install state
-- `:checkhealth` checks runtime and tooling issues
-- `:Mason` opens Mason UI for language tooling
-- `:TSManager` opens Tree-sitter Manager UI to handle parser installations
-
----
-
-## Theme
-
-This configuration uses the `Tokyonight` colorscheme (specifically the `night` style) as its default theme.
-
----
-
-## LSP Setup (Mason)
-
-This config is pre-wired for these servers and tools:
-
-- `lua_ls` (Lua)
-- `basedpyright` (Python)
-- `ruff` (Python)
-- `clangd` (C/C++)
-- `tailwindcss` (Web)
-- `rust_analyzer` (Rust)
-- `tinymist` (Typst)
-
-Install them with Mason:
+Useful optional setup:
 
 ```vim
 :MasonInstall lua_ls basedpyright ruff clangd tailwindcss-language-server rust-analyzer tinymist
 ```
 
-Check installed tools and active clients:
-
-```vim
-:Mason
-:LspInfo
-```
+Notes:
+- Mason auto-installs no servers by default (`ensure_installed = {}`), so install what you need.
+- Tree-sitter Manager is configured with a broad parser list but `auto_install = false`.
 
 ---
 
-## Formatting
+## Theme
 
-Formatting is handled by `conform.nvim` and runs on save.
+Default colorscheme is `tokyonight` (`night` style) with transparent background.
+
+---
+
+## LSP
+
+Configured LSP handlers include:
+
+- `lua_ls`
+- `basedpyright`
+- `ruff`
+- `clangd`
+- `tailwindcss`
+- `rust_analyzer`
+- `tinymist`
+
+LSP keymaps (on attach):
+
+- `K`: Hover
+- `<leader>k`: Diagnostics float
+- `gd`, `gD`, `gi`, `go`, `gr`, `gs`
+- `<F2>`: Rename
+- `<F4>`: Code Action
+- `<leader>lr`: Restart LSP
+
+---
+
+## Formatting and Linting
+
+Formatting is managed by `conform.nvim` with format-on-save enabled.
 
 Manual format:
 - `<leader>mp`
 
-Configured formatters include:
+Configured formatters:
 - Typst: `typstyle`
-- Rust: `rustfmt` (with LSP fallback)
+- Rust: `rustfmt` (LSP fallback)
 - C/C++: `clang-format`
 - Go: `goimports`, `gofmt`
 - Lua: `stylua`
 - Python: `ruff_format`, `ruff_fix`
 - JS/TS/CSS/HTML/JSON/YAML/Markdown/Astro: `prettierd`
 
+Linting:
+- Markdown via `markdownlint` (`MD013` disabled)
+
 ---
 
-## Useful Keymaps
+## Keymaps (Common)
 
 Leader key: `Space`
 
-**General**
+General:
 - `<C-h/j/k/l>`: Move between windows
-- `<leader>w`: Save file
+- `<C-s>`: Save
 - `<leader>q`: Quit
-- `<leader>h`: Clear search highlight
+- `<leader>h`: Clear search highlights
 - `<leader>d`: Toggle diagnostics
-- `<leader>mp`: Format file
-- `<leader>tc`: Generate/Update Markdown TOC
+- `<leader>tc`: Update Markdown TOC
+- `<C-t>`: Toggle Snacks terminal
+- `jj` (insert): Exit insert mode
 
-**Snacks & Pickers**
-- `<leader>e`: File Explorer
-- `<leader><space>`: Smart Find Files
-- `<leader>ff`: Find Files
-- `<leader>bf`: List Buffers
-- `<leader>bg`: Grep Open Buffers
-- `<leader>bd`: Delete Buffer
-- `<leader>ns`: Notification History
-- `<C-t>`: Toggle Terminal
-- `<leader>gg`: Open Lazygit
-- `<leader>z`: Toggle Zen Mode
+Buffers:
+- `<S-h>/<S-l>`: Prev/next buffer
+- `<leader>bd`: Delete buffer
+- `<leader>bo`: Delete other buffers
+- `<leader>bi`: Delete invisible buffers
+- `<leader>bD`: Delete buffer and window
 
-**LSP**
-- `K`: Hover documentation
-- `gd`: Go to definition
-- `gD`: Go to declaration
-- `gi`: Go to implementation
-- `go`: Go to type definition
-- `gr`: References
-- `gs`: Signature help
-- `<F2>`: Rename
-- `<F4>`: Code action
+Pickers / explorer:
+- `<leader>e`: Explorer (Snacks)
+- `<leader>ff`: Find files (`fzf-lua`)
+- `<leader>fg`: Live grep project (`fzf-lua`)
+- `<leader>bf`: Buffers (`fzf-lua`)
+- `<leader>bg`: Grep open buffers (`fzf-lua` lines)
+- `<leader>ns`: Notification history
+
+Git / tools:
+- `<leader>gg`: Lazygit (if installed)
+- `<leader>l`: Open Lazy
+- `<leader>fn`: New file
+
+Notes / Typst / Live server:
+- `<leader>nn`: Neorg files
+- `<leader>ng`: Neorg grep
+- `<leader>nt`: Neorg actionable tasks
+- `<leader>tp`: Toggle Typst preview
+- `<leader>ls` / `<leader>lx`: Start/stop live server
 
 ---
 
@@ -164,54 +176,60 @@ Leader key: `Space`
 
 ```text
 .
-├── init.lua
-├── lazy-lock.json
-└── lua/conf/
-    ├── init.lua
-    ├── options.lua
-    ├── keymap.lua
-    ├── lazy_init.lua
-    ├── statusline.lua
-    ├── typewriter.lua
-    └── plugins/
-        ├── lsp.lua
-        ├── conform.lua
-        ├── tsmanager.lua
-        ├── snacks.lua
-        ├── neorg.lua
-        ├── themes.lua
-        └── ...
+|- init.lua
+`- lua/conf/
+   |- init.lua
+   |- options.lua
+   |- keymap.lua
+   |- autocmds.lua
+   |- lazy_init.lua
+   |- statusline/
+   |  |- init.lua
+   |  `- components.lua
+   `- plugins/
+      |- lsp.lua
+      |- conform.lua
+      |- nvimlint.lua
+      |- snacks.lua
+      |- noice.lua
+      |- tsmanager.lua
+      |- neorg.lua
+      |- typst.lua
+      |- fzflua.lua
+      |- gitsigns.lua
+      |- navic.lua
+      |- themes.lua
+      `- ...
 ```
 
-Main flow:
-- `init.lua` loads `lua/conf/init.lua`
-- `lua/conf/init.lua` loads options, keymaps, and lazy bootstrap
-- `lua/conf/plugins/*.lua` contains plugin specs and configuration
+Load flow:
+- `init.lua` -> `lua/conf/init.lua`
+- `lua/conf/init.lua` loads autocmds, options, keymaps, lazy bootstrap, and statusline
+- `lua/conf/plugins/*.lua` contains plugin specs/config
 
 ---
 
 ## Troubleshooting
 
-### LSP not attaching
-- Run `:LspInfo`
-- Run `:checkhealth vim.lsp`
-- Ensure the server is installed in `:Mason`
+LSP issues:
+- `:LspInfo`
+- `:checkhealth vim.lsp`
+- Confirm server install in `:Mason`
 
-### Tree-sitter parser errors
-- Open `:TSManager` to install or update parsers.
-- Confirm `curl`, `tar`, and a C compiler are available.
+Parser issues:
+- Open `:TSManager` and install/update parsers
+- Verify `curl`, `tar`, compiler availability
 
-### Missing icons
-- Install and enable a Nerd Font in your terminal.
+Missing icons:
+- Use a Nerd Font in terminal
 
-### Plugin install issues
-- Open `:Lazy` and check failed plugins.
-- Re-run `:checkhealth` for missing dependencies.
+Plugin problems:
+- Check `:Lazy`
+- Re-run `:checkhealth`
 
 ---
 
 ## Notes
 
-- Plugin versions are pinned in `lazy-lock.json`
-- Plugin configs live in `lua/conf/plugins/`
-- This config targets Neovim nightly-era APIs (`0.12+`)
+- Main config lives in `lua/conf/`
+- Some plugin defaults (especially Snacks) provide additional mappings/behavior beyond explicit keymaps listed here
