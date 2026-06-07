@@ -21,8 +21,6 @@ return {
 				yaml = { "prettierd" },
 				markdown = { "prettierd" },
 				astro = { "prettierd" },
-				-- FIX: why does this not work?
-				-- norg = { "injected" },
 			},
 			formatters = {
 				ruff_fix = {

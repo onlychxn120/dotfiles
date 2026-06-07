@@ -3,18 +3,20 @@ return {
 	dependencies = {
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
-		"hrsh7th/cmp-nvim-lsp",
-		"hrsh7th/nvim-cmp",
-		"hrsh7th/cmp-path",
-		"hrsh7th/cmp-buffer",
+		"brenoprata10/nvim-highlight-colors",
+		{
+			"saghen/blink.cmp",
+			version = "1.*",
+		},
 	},
 
 	config = function()
 		vim.api.nvim_create_user_command("LspRestart", function()
 			vim.cmd("LspStop")
-			vim.cmd("LspRestart")
+			vim.cmd("LspStart")
 			print("LSP Restarted")
 		end, {})
+
 		vim.api.nvim_create_autocmd("LspAttach", {
 			desc = "LSP actions",
 			callback = function(event)
@@ -32,6 +34,7 @@ return {
 				vim.keymap.set("n", "<leader>lr", "<cmd>LspRestart<cr>", { buffer = event.buf, desc = "Restart LSP" })
 			end,
 		})
+
 		vim.diagnostic.config({
 			virtual_text = false,
 			signs = {
@@ -50,6 +53,7 @@ return {
 				source = "if_many",
 			},
 		})
+
 		vim.api.nvim_create_autocmd("ColorScheme", {
 			callback = function()
 				vim.cmd([[
@@ -73,14 +77,12 @@ return {
 			end,
 		})
 
-		-- Mason setup
-		require("mason").setup({
-			ensure_installed = {},
-		})
+		require("mason").setup()
 
-		local capabilities = require("cmp_nvim_lsp").default_capabilities()
-		-- Mason-lspconfig setup
+		local capabilities = require("blink.cmp").get_lsp_capabilities()
+
 		require("mason-lspconfig").setup({
+			ensure_installed = {},
 			handlers = {
 				function(server_name)
 					require("lspconfig")[server_name].setup({
@@ -138,10 +140,13 @@ return {
 						end,
 						settings = {
 							Lua = {
+								diagnostics = {
+									globals = { "vim" },
+								},
 								workspace = {
+									library = vim.api.nvim_get_runtime_file("", true),
 									checkThirdParty = false,
 								},
-								telemetry = { enable = false },
 							},
 						},
 					})
@@ -189,7 +194,6 @@ return {
 							"typescriptreact",
 							"astro",
 						},
-						-- Optional but recommended: Only start if a tailwind config file is found
 						root_dir = require("lspconfig").util.root_pattern(
 							"tailwind.config.js",
 							"tailwind.config.cjs",
@@ -202,106 +206,120 @@ return {
 			},
 		})
 
-		local cmp = require("cmp")
+		require("nvim-highlight-colors").setup({})
 
-		--   פּ ﯟ   some other good icons
 		local kind_icons = {
-			Text = "",
-			Method = "m",
-			Function = "",
-			Constructor = "",
-			Field = "",
-			Variable = "",
-			Class = "",
-			Interface = "",
-			Module = "",
-			Property = "",
-			Unit = "",
-			Value = "",
-			Enum = "",
-			Keyword = "",
-			Snippet = "",
-			Color = "",
-			File = "",
-			Reference = "",
-			Folder = "",
-			EnumMember = "",
-			Constant = "",
-			Struct = "",
-			Event = "",
-			Operator = "",
-			TypeParameter = "",
+			Text = "󰉿 ",
+			Method = "󰆧 ",
+			Function = "󰊕 ",
+			Constructor = " ",
+			Field = "󰜢 ",
+			Variable = "󰀫 ",
+			Class = "󰠱 ",
+			Interface = " ",
+			Module = " ",
+			Property = "󰜢 ",
+			Unit = "󰑭 ",
+			Value = "󰎚 ",
+			Enum = "󰏗 ",
+			Keyword = "󰌋 ",
+			Snippet = " ",
+			Color = "󰏘 ",
+			File = "󰈙 ",
+			Reference = "󰈇 ",
+			Folder = "󰉋 ",
+			EnumMember = "󰏗 ",
+			Constant = "󰏿 ",
+			Struct = "󰙅 ",
+			Event = "󱐋 ",
+			Operator = "󰆕 ",
+			TypeParameter = "󰏘 ",
 		}
-		-- find more here: https://www.nerdfonts.com/cheat-sheet
 
-		cmp.setup({
-			snippet = {
-				expand = function(args)
-					vim.snippet.expand(args.body)
-				end,
-			},
-			sources = cmp.config.sources({
-				{ name = "neorg" },
-				{ name = "nvim_lsp" },
-			}, {
-				{ name = "buffer" },
-				{ name = "path" },
-			}),
-
-			mapping = {
-				["<C-k>"] = cmp.mapping.select_prev_item(),
-				["<C-j>"] = cmp.mapping.select_next_item(),
-				["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
-				["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
-				["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-				---@diagnostic disable-next-line: assign-type-mismatch
-				["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-				["<C-e>"] = cmp.mapping({
-					i = cmp.mapping.abort(),
-					c = cmp.mapping.close(),
-				}),
-				-- Accept currently selected item. If none selected, `select` first item.
-				-- Set `select` to `false` to only confirm explicitly selected items.
-				["<CR>"] = cmp.mapping.confirm({ select = false }),
-				["<Tab>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
-						cmp.select_next_item()
-					else
-						fallback()
-					end
-				end, {
-					"i",
-					"s",
-				}),
-				["<S-Tab>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
-						cmp.select_prev_item()
-					else
-						fallback()
-					end
-				end, {
-					"i",
-					"s",
-				}),
+		require("blink.cmp").setup({
+			keymap = {
+				["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+				["<C-e>"] = { "hide" },
+				["<CR>"] = { "accept", "fallback" },
+				["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+				["<C-j>"] = { "select_next", "fallback" },
+				["<C-k>"] = { "select_prev", "fallback" },
+				["<C-b>"] = { "scroll_documentation_up", "fallback" },
+				["<C-f>"] = { "scroll_documentation_down", "fallback" },
 			},
 
-			formatting = {
-				fields = { "kind", "abbr", "menu" },
-				format = function(entry, vim_item)
-					-- Kind icons
-					vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
-					-- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
-					vim_item.menu = ({
-						nvim_lsp = "[LSP]",
-						--nvim_lsp_signature_help = "[LSP-Signature]",
-						buffer = "[Buffer]",
-						path = "[Path]",
-						neorg = "[Neorg]",
-					})[entry.source.name]
-					return require("nvim-highlight-colors").format(entry, vim_item)
-				end,
+			appearance = {
+				use_nvim_cmp_as_default = false,
+				nerd_font_variant = "normal",
+				kind_icons = kind_icons,
 			},
+
+			sources = {
+				default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+
+				providers = {
+					lazydev = {
+						name = "LazyDev",
+						module = "lazydev.integrations.blink",
+						score_offset = 100,
+					},
+				},
+			},
+
+			completion = {
+				menu = {
+					draw = {
+						columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "source_name" } },
+						components = {
+							source_name = {
+								text = function(ctx)
+									local names = {
+										lsp = "[LSP]",
+										buffer = "[Buffer]",
+										path = "[Path]",
+										snippets = "[Snippet]",
+										neorg = "[Neorg]",
+									}
+									return names[ctx.source_id] or "[" .. ctx.source_name .. "]"
+								end,
+							},
+							kind_icon = {
+								text = function(ctx)
+									local icon = ctx.kind_icon
+									if ctx.item.source_name == "LSP" then
+										local color_item = require("nvim-highlight-colors").format(
+											ctx.item.documentation,
+											{ kind = ctx.kind }
+										)
+										if color_item and color_item.abbr and color_item.abbr ~= "" then
+											icon = color_item.abbr
+										end
+									end
+									return icon .. ctx.icon_gap
+								end,
+								highlight = function(ctx)
+									local highlight = "BlinkCmpKind" .. ctx.kind
+									if ctx.item.source_name == "LSP" then
+										local color_item = require("nvim-highlight-colors").format(
+											ctx.item.documentation,
+											{ kind = ctx.kind }
+										)
+										if color_item and color_item.abbr_hl_group then
+											highlight = color_item.abbr_hl_group
+										end
+									end
+									return highlight
+								end,
+							},
+						},
+					},
+				},
+			},
+
+			signature = { enabled = true },
 		})
+
 		vim.cmd("doautocmd ColorScheme")
 	end,
 }

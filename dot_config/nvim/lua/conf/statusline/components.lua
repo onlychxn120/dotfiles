@@ -1,5 +1,5 @@
 local M = {}
-local has_devicons, devicons = pcall(require, "nvim-web-devicons")
+local has_mini_icons, mini_icons = pcall(require, "mini.icons")
 
 -- HIGHLIGHTS & CACHES
 M.setup_highlights = function()
@@ -240,7 +240,7 @@ M.get_filetype = function()
 		return ""
 	end
 
-	if has_devicons then
+	if has_mini_icons then
 		local buf = vim.api.nvim_get_current_buf()
 
 		if icon_cache[buf] then
@@ -249,9 +249,9 @@ M.get_filetype = function()
 
 		local path = vim.api.nvim_buf_get_name(0)
 		local tail = path:match("[^/]+$") or path
-		local ext = tail:match("%.([^.]+)$") or ""
 
-		local icon, icon_hl = devicons.get_icon(tail, ext, { default = true })
+		local icon, icon_hl = mini_icons.get("file", tail)
+
 		if icon then
 			local cached_str = string.format("%%#%s#%s%%#StatusLine# ", icon_hl, icon)
 			icon_cache[buf] = cached_str

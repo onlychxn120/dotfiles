@@ -39,17 +39,18 @@ return {
 				},
 			},
 		})
-		local snacks = require("snacks")
+		local fzf = require("fzf-lua")
+
 		vim.keymap.set("n", "<leader>nn", function()
-			snacks.picker.files({ cwd = "~/Documents/neorg_notes" })
+			fzf.files({ cwd = "~/Documents/neorg_notes" })
 		end, { desc = "Neorg: Find Files" })
 
 		vim.keymap.set("n", "<leader>ng", function()
-			snacks.picker.grep({ cwd = "~/Documents/neorg_notes" })
+			fzf.live_grep({ cwd = "~/Documents/neorg_notes" })
 		end, { desc = "Neorg: Grep Notes" })
 
 		vim.keymap.set("n", "<leader>nt", function()
-			snacks.picker.grep({
+			fzf.grep({
 				cwd = "~/Documents/neorg_notes",
 				search = "TODO|FIXME|\\( \\)|\\(/\\)|\\(-\\)",
 			})
