@@ -1,9 +1,6 @@
 # Press 'w' to spawn a second window (GUI & Terminal safe)
 map w feedkeys ":exec bash -c \"PATH='/opt/homebrew/bin:/usr/local/bin:/usr/bin:\$PATH' zathura \\\"\$FILE\\\"\"<Return>"
 
-# Google scholar search
-map s feedkeys ":exec bash -c \"open 'https://scholar.google.com/scholar?q=$(pbpaste)'\"<Return>"
-
 #'b' to open the table of contents
 map b toggle_index
 
@@ -12,7 +9,7 @@ set selection-clipboard clipboard    # Copy text directly to the system clipboar
 set adjust-open "best-fit"           # Open PDFs zoomed to perfectly fit the screen
 set window-title-basename "true"     # Show only the file name in the title bar, not the full path
 set scroll-page-aware "true"         # Stop cleanly at page boundaries when scrolling
-set scroll-step 100                   # Make scrolling with j/k a bit faster
+set scroll-step 20                   # Make scrolling with j/k a bit faster
 
 # --- Clean UI ---
 set guioptions ""                    # Remove the bottom status bar for a totally minimalist view

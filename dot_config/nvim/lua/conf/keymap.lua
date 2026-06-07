@@ -47,7 +47,7 @@ map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result
 map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 
 -- save
-map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<CR><esc>", { desc = "Save file" })
+map("n", "<leader>w", "<cmd>w<CR>", { desc = "Save file" })
 
 -- quit
 map("n", "<leader>q", "<cmd>q<CR>", { desc = "Quit" })
@@ -60,8 +60,8 @@ map("n", "<leader>d", function()
 	vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = "Toggle diagnostics" })
 
--- map({ "n", "v" }, "j", "gj", { desc = "Move down visual line" })
--- map({ "n", "v" }, "k", "gk", { desc = "Move up visual line" })
+map({ "n", "v" }, "j", "gj", { desc = "Move down visual line" })
+map({ "n", "v" }, "k", "gk", { desc = "Move up visual line" })
 
 map("n", "Q", "<nop>")
 
@@ -80,7 +80,7 @@ if vim.fn.executable("lazygit") == 1 then
 	end, { desc = "Lazygit (cwd)" })
 end
 
-map("i", "jj", "<ESC>", { desc = "Exit insert mode" })
+map("i", "<C-j>", "<ESC>", { desc = "Exit insert mode" })
 
 map("v", "<A-j>", ":m .+1<CR>==", { desc = "Move text down" })
 map("v", "<A-k>", ":m .-2<CR>==", { desc = "Move text up" })
