@@ -4,6 +4,7 @@ return {
 	ft = "norg",
 	cmd = "Neorg",
 	dependencies = {
+		"benlubas/neorg-interim-ls",
 		"nvim-neorg/tree-sitter-norg",
 		"nvim-neorg/tree-sitter-norg-meta",
 	},
@@ -24,17 +25,25 @@ return {
 						default_workspace = "main",
 					},
 				},
-				["core.completion"] = {
-					config = {
-						engine = "nvim-cmp",
-					},
-				},
 				["core.ui.calendar"] = {},
 				["core.summary"] = {},
 				["core.export"] = {},
 				["core.export.markdown"] = {
 					config = {
 						extension = "all",
+					},
+				},
+				["external.interim-ls"] = {
+					config = {
+						completion_provider = {
+							enable = true,
+							documentation = true,
+						},
+					},
+				},
+				["core.completion"] = {
+					config = {
+						engine = { module_name = "external.lsp-completion" },
 					},
 				},
 			},
