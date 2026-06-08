@@ -51,11 +51,6 @@ alias d='docker'
 alias t='tmux attach || tmux new -s Work'
 alias loadconda='eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"'
 n() { if [ "$#" -eq 0 ]; then command nvim . ; else command nvim "$@"; fi; }
-# Fuzzy-find and open a PDF
-fp() {
-    local file=$(fd --extension pdf | fzf --prompt="PDF> ")
-    [ -n "$file" ] && zathura "$file" & disown
-}
 
 # Git
 alias g='git'

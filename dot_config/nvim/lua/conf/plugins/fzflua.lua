@@ -23,6 +23,12 @@ return {
 			desc = "Grep Project",
 		},
 	},
+	keymap = {
+		fzf = {
+			["ctrl-n"] = "down",
+			["ctrl-p"] = "up",
+		},
+	},
 	config = function()
 		require("fzf-lua").setup({
 			file_icon_provider = "mini",
