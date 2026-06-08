@@ -25,7 +25,7 @@ return {
 			wo = { wrap = true },
 			terminal = {
 				position = "right",
-				width = 0.4,
+				width = 0.5,
 				border = "single",
 			},
 			lazygit = {
