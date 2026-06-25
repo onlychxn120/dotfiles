@@ -128,6 +128,7 @@ return {
 						cmd = {
 							"clangd",
 							"--offset-encoding=utf-16",
+							"--clang-tidy",
 						},
 					})
 				end,

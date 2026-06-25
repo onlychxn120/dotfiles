@@ -12,6 +12,7 @@ return {
 		require("neorg").setup({
 			load = {
 				["core.defaults"] = {},
+				["core.itero"] = {},
 				["core.concealer"] = {
 					config = {
 						icon_preset = "varied",

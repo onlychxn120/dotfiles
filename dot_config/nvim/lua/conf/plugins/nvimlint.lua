@@ -6,13 +6,22 @@ return {
 
 		lint.linters_by_ft = {
 			markdown = { "markdownlint" },
+			go = { "golangci-lint" },
+			javascript = { "biomejs" },
+			typescript = { "biomejs" },
+			javascriptreact = { "biomejs" },
+			typescriptreact = { "biomejs" },
+			json = { "biomejs" },
+			css = { "biomejs" },
+			html = { "biomejs" },
 		}
 
-		local markdownlint = lint.linters.markdownlint
+		local markdownlint = vim.deepcopy(require("lint.linters.markdownlint"))
 		table.insert(markdownlint.args, "--disable")
 		table.insert(markdownlint.args, "MD013")
+		lint.linters.markdownlint = markdownlint
 
-		vim.api.nvim_create_autocmd({ "BufWritePost", "InsertLeave" }, {
+		vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost", "InsertLeave" }, {
 			callback = function()
 				lint.try_lint()
 			end,
