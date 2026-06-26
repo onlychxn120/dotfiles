@@ -8,8 +8,6 @@ if command -v fzf &> /dev/null; then
   fi
 fi
 
-{{ if .is_linux }}
-source "$HOME/.local/share/zsh/completions.zsh"
-{{ else }}
+{{ if .is_mac }}
 eval "$(/opt/homebrew/bin/brew shellenv)"
 {{ end }}

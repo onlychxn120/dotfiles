@@ -4,8 +4,7 @@ LICENSE
 .config/waybar/scripts/.env
 .config/nvim/lazy-lock.json
 
-{{ if not .is_linux }}
-.local/share/zsh/completions.zsh
+{{ if .is_mac }}
 .config/hypr
 .config/waybar
 {{ end }}
