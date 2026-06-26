@@ -25,14 +25,23 @@ fi
 export NPM_CONFIG_USERCONFIG="$HOME/.config/npm/npmrc"
 export NPM_CONFIG_CACHE="$HOME/.cache/npm"
 
+fpath=(
+{{ if .is_mac }}
+  /opt/homebrew/share/zsh/site-functions
+  /opt/homebrew/share/zsh-completions
+{{ end }}
+  "$HOME/.bun"
+  "$HOME/.local/share/zsh/completions"
+  $fpath
+)
+
 {{ if .is_mac }}
 # brew binaries
 export PATH="/opt/homebrew/bin:$PATH"
-fpath=(/opt/homebrew/share/zsh/site-functions /opt/homebrew/share/zsh-completions $fpath)
-export PATH="$PATH:/Applications/Obsidian.app/Contents/Macos"
 export PNPM_HOME="$HOME/Library/pnpm"
 
 {{ else }}
+
 # Always include OMARCHY_PATH - needed for all shell types (scripts, cron, etc.)
 export OMARCHY_PATH=$HOME/.local/share/omarchy
 export PATH=$OMARCHY_PATH/bin:$PATH:$HOME/.local/bin

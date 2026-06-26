@@ -1,0 +1,102 @@
+{{ if .is_mac }}
+config-version = 2
+
+after-startup-command = []
+
+start-at-login = true
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+accordion-padding = 30
+
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+on-focus-changed = []
+
+automatically-unhide-macos-hidden-apps = false
+
+persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+
+on-mode-changed = []
+
+[key-mapping]
+    preset = 'qwerty'
+
+[gaps]
+    inner.horizontal = 0
+    inner.vertical = 0
+    outer.left = 0
+    outer.bottom = 0
+    outer.top = 0
+    outer.right = 0
+
+[mode.main.binding]
+    alt-enter = 'exec-and-forget open -na Ghostty'
+    alt-shift-enter = 'exec-and-forget open -na Helium'
+
+    cmd-h = ['focus --boundaries-action wrap-around-the-workspace left', 'move-mouse window-lazy-center']
+    cmd-l = ['focus --boundaries-action wrap-around-the-workspace right', 'move-mouse window-lazy-center']
+
+    cmd-shift-h = ['move left', 'move-mouse window-lazy-center']
+    cmd-shift-j = ['move down', 'move-mouse window-lazy-center']
+    cmd-shift-k = ['move up', 'move-mouse window-lazy-center']
+    cmd-shift-l = ['move right', 'move-mouse window-lazy-center']
+
+    alt-f = 'fullscreen'
+    alt-shift-f = 'macos-native-fullscreen'
+    alt-shift-space = 'layout floating tiling'
+
+    cmd-shift-1 = ['workspace 1', 'move-mouse monitor-lazy-center']
+    cmd-shift-2 = ['workspace 2', 'move-mouse monitor-lazy-center']
+    cmd-shift-3 = ['workspace 3', 'move-mouse monitor-lazy-center']
+    cmd-shift-4 = ['workspace 4', 'move-mouse monitor-lazy-center']
+    cmd-shift-5 = ['workspace 5', 'move-mouse monitor-lazy-center']
+    cmd-shift-6 = ['workspace 6', 'move-mouse monitor-lazy-center']
+    cmd-shift-7 = ['workspace 7', 'move-mouse monitor-lazy-center']
+    cmd-shift-8 = ['workspace 8', 'move-mouse monitor-lazy-center']
+    cmd-shift-9 = ['workspace 9', 'move-mouse monitor-lazy-center']
+    cmd-shift-0 = ['workspace 10', 'move-mouse monitor-lazy-center']
+
+
+    alt-shift-1 = ['move-node-to-workspace 1', 'workspace 1', 'move-mouse monitor-lazy-center']
+    alt-shift-2 = ['move-node-to-workspace 2', 'workspace 2', 'move-mouse monitor-lazy-center']
+    alt-shift-3 = ['move-node-to-workspace 3', 'workspace 3', 'move-mouse monitor-lazy-center']
+    alt-shift-4 = ['move-node-to-workspace 4', 'workspace 4', 'move-mouse monitor-lazy-center']
+    alt-shift-5 = ['move-node-to-workspace 5', 'workspace 5', 'move-mouse monitor-lazy-center']
+    alt-shift-6 = ['move-node-to-workspace 6', 'workspace 6', 'move-mouse monitor-lazy-center']
+    alt-shift-7 = ['move-node-to-workspace 7', 'workspace 7', 'move-mouse monitor-lazy-center']
+    alt-shift-8 = ['move-node-to-workspace 8', 'workspace 8', 'move-mouse monitor-lazy-center']
+    alt-shift-9 = ['move-node-to-workspace 9', 'workspace 9', 'move-mouse monitor-lazy-center']
+    alt-shift-0 = ['move-node-to-workspace 10', 'workspace 10', 'move-mouse monitor-lazy-center']
+
+
+    alt-tab = ['workspace-back-and-forth', 'move-mouse monitor-lazy-center']
+    alt-shift-tab = ['move-workspace-to-monitor --wrap-around next', 'move-mouse monitor-lazy-center']
+
+    alt-shift-semicolon = 'mode service'
+
+[mode.service.binding]
+    esc = ['reload-config', 'mode main']
+    r = ['flatten-workspace-tree', 'mode main'] # reset layout
+    f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+    backspace = ['close-all-windows-but-current', 'mode main']
+
+    cmd-shift-h = ['join-with left', 'mode main']
+    cmd-shift-j = ['join-with down', 'mode main']
+    cmd-shift-k = ['join-with up', 'mode main']
+    cmd-shift-l = ['join-with right', 'mode main']
+
+[workspace-to-monitor-force-assignment]
+1 = 1
+2 = 1
+3 = 1
+4 = 1
+5 = 1
+6 = 2
+7 = 2
+8 = 2
+9 = 2
+10 = 2
+{{ end }}
