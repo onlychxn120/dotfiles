@@ -30,6 +30,8 @@ if [[ -s ${ZDOTDIR:-$HOME}/.zcompdump ]] && (! [[ -s ${ZDOTDIR:-$HOME}/.zcompdum
   zcompile ${ZDOTDIR:-$HOME}/.zcompdump
 fi
 
+zstyle ':completion::complete:*' use-cache 1
+
 if command -v fzf &> /dev/null; then
 {{ if .is_mac }}
   [[ -f /opt/homebrew/opt/fzf/shell/completion.zsh ]] && source /opt/homebrew/opt/fzf/shell/completion.zsh
