@@ -14,13 +14,10 @@ source $HOME/.local/share/zsh/init.zsh
 autoload -Uz compinit
 setopt extended_glob
 
-# 1. Force Zsh to evaluate the glob by assigning it to an array
 local compdump_files=(${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24))
 
-# 2. Run full compinit if cache is over 24h old OR if it doesn't exist
 if [[ ${#compdump_files} -gt 0 || ! -f ${ZDOTDIR:-$HOME}/.zcompdump ]]; then
   compinit
-  # 3. Touch the file to ensure the modified timer resets!
   touch ${ZDOTDIR:-$HOME}/.zcompdump
 else
   compinit -C
