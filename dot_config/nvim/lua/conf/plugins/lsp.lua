@@ -282,7 +282,7 @@ return {
 										snippets = "[Snippet]",
 										neorg = "[Neorg]",
 									}
-									return names[ctx.source_id] or "[" .. ctx.source_name .. "]"
+									return names[ctx.source_id] or ("[" .. ctx.source_name .. "]")
 								end,
 							},
 							kind_icon = {
