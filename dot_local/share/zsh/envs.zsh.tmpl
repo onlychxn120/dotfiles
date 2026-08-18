@@ -23,6 +23,7 @@ export NPM_CONFIG_CACHE="$HOME/.cache/npm"
 
 {{ if .is_mac }}
 # brew binaries
+export HOMEBREW_CASK_OPTS="--no-quarantine"
 export PATH="/opt/homebrew/bin:$PATH"
 export PNPM_HOME="$HOME/Library/pnpm"
 
