@@ -1,9 +1,3 @@
-# Prevent double-sourcing loop
-if [[ -n "$_ENVS_LOCAL_SOURCED" ]]; then return; fi
-  return
-fi
-_ENVS_LOCAL_SOURCED=1
-
 # Editor used by CLI
 export EDITOR="nvim"
 export VISUAL="nvim"

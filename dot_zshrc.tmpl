@@ -23,12 +23,6 @@ fpath=(
 autoload -Uz compinit
 setopt extended_glob
 
-# Enable descriptions and grouping for flags so fzf-tab can read them
-zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*:*:-command-:*:*' group-order alias builtins functions commands
-zstyle ':completion::complete:*' use-cache 1
-
 local compdump_files=(${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24))
 
 if [[ ${#compdump_files} -gt 0 || ! -f ${ZDOTDIR:-$HOME}/.zcompdump ]]; then
