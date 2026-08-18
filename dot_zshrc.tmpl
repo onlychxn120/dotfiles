@@ -11,8 +11,23 @@ source $HOME/.local/share/zsh/aliases.zsh
 source $HOME/.local/share/zsh/shell.zsh
 source $HOME/.local/share/zsh/init.zsh
 
+fpath=(
+{{ if .is_mac }}
+  /opt/homebrew/share/zsh/site-functions
+  /opt/homebrew/share/zsh-completions
+{{ end }}
+  "$HOME/.local/share/zsh/completions"
+  $fpath
+)
+
 autoload -Uz compinit
 setopt extended_glob
+
+# Enable descriptions and grouping for flags so fzf-tab can read them
+zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:*:-command-:*:*' group-order alias builtins functions commands
+zstyle ':completion::complete:*' use-cache 1
 
 local compdump_files=(${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24))
 
@@ -27,26 +42,28 @@ if [[ -s ${ZDOTDIR:-$HOME}/.zcompdump ]] && (! [[ -s ${ZDOTDIR:-$HOME}/.zcompdum
   zcompile ${ZDOTDIR:-$HOME}/.zcompdump
 fi
 
-zstyle ':completion::complete:*' use-cache 1
-
 if command -v fzf &> /dev/null; then
 {{ if .is_mac }}
-  [[ -f /opt/homebrew/opt/fzf/shell/completion.zsh ]] && source /opt/homebrew/opt/fzf/shell/completion.zsh
+  # Native completion disabled to allow fzf-tab to work
+  # [[ -f /opt/homebrew/opt/fzf/shell/completion.zsh ]] && source /opt/homebrew/opt/fzf/shell/completion.zsh
   [[ -f /opt/homebrew/opt/fzf/shell/key-bindings.zsh ]] && source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
 {{ else }}
-  [[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
+  # Native completion disabled to allow fzf-tab to work
+  # [[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
   [[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
 {{ end }}
 fi
 
-source $HOME/.local/share/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
+# Defer can remain for non-interactive scripts, but not the UI plugins below
 source $HOME/.local/share/zsh/plugins/zsh-defer/zsh-defer.plugin.zsh
 
-zsh-defer source $HOME/.local/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-zsh-defer source $HOME/.local/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+# Interactive plugins loaded synchronously in strict order
+source $HOME/.local/share/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
+source $HOME/.local/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/.local/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 
 source $HOME/.local/share/zsh/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-typeset -U PATH path
+typeset -U PATH path FPATH fpath
 # zprof

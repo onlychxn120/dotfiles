@@ -1,6 +1,8 @@
 # Prevent double-sourcing loop
-if [[ -n "$_ENVS_SOURCED" ]]; then return; fi
-export _ENVS_SOURCED=1
+if [[ -n "$_ENVS_LOCAL_SOURCED" ]]; then return; fi
+  return
+fi
+_ENVS_LOCAL_SOURCED=1
 
 # Editor used by CLI
 export EDITOR="nvim"
@@ -24,16 +26,6 @@ fi
 # npm config and cache
 export NPM_CONFIG_USERCONFIG="$HOME/.config/npm/npmrc"
 export NPM_CONFIG_CACHE="$HOME/.cache/npm"
-
-fpath=(
-{{ if .is_mac }}
-  /opt/homebrew/share/zsh/site-functions
-  /opt/homebrew/share/zsh-completions
-{{ end }}
-  "$HOME/.bun"
-  "$HOME/.local/share/zsh/completions"
-  $fpath
-)
 
 {{ if .is_mac }}
 # brew binaries
