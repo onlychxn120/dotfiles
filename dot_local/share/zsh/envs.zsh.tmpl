@@ -30,7 +30,7 @@ export PNPM_HOME="$HOME/Library/pnpm"
 {{ else }}
 
 # Always include OMARCHY_PATH - needed for all shell types (scripts, cron, etc.)
-export OMARCHY_PATH=$HOME/.local/share/omarchy
+export OMARCHY_PATH=/usr/share/omarchy
 export PATH=$OMARCHY_PATH/bin:$PATH:$HOME/.local/bin
 
 #opencode

@@ -51,6 +51,7 @@ alias d='docker'
 alias t='tmux attach || tmux new -s Work'
 alias loadconda='eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"'
 n() { if [ "$#" -eq 0 ]; then command nvim . ; else command nvim "$@"; fi; }
+alias p='python3'
 
 # Git
 alias g='git'

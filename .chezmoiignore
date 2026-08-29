@@ -1,10 +1,10 @@
 README.md
 LICENSE
 .git/
-.config/waybar/scripts/.env
 .config/nvim/lazy-lock.json
 
-{{ if .is_mac }}
+{{ if .is_linux }}
+.aerospace.toml
+{{ else }}
 .config/hypr
-.config/waybar
 {{ end }}
