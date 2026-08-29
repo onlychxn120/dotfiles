@@ -7,4 +7,8 @@ LICENSE
 .aerospace.toml
 {{ else }}
 .config/hypr
+.local/share/zsh/fns
+.local/share/zsh/env-bootstrap
+.local/share/zsh/functions.zsh
+.local/share/zsh/completions/_omarchy
 {{ end }}

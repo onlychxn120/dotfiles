@@ -1,0 +1,143 @@
+#compdef omarchy
+# Zsh completion for the `omarchy` dispatcher.
+# Replaces the bash COMPREPLY/compgen/complete version.
+
+_omarchy() {
+  emulate -L zsh
+  local omarchy_path bin_dir
+  omarchy_path=$(command -v omarchy 2>/dev/null) || return 1
+  bin_dir=$(dirname -- "$(readlink -f -- "$omarchy_path" 2>/dev/null || printf '%s' "$omarchy_path")")
+  [[ -d $bin_dir ]] || return 1
+
+  local -a complete candidates
+  local -A seen
+  local i part file basename_entry rest next
+  local last="${PREFIX:-}" prefix="omarchy"
+
+  # Collect complete arg segments, skipping the dispatch command (words[1]) and flags.
+  for ((i = 2; i < CURRENT; i++)); do
+    part="${words[i]}"
+    [[ -z $part || $part == -* ]] && continue
+    complete+=("$part")
+  done
+
+  if (( ${#complete} > 0 )); then
+    prefix="omarchy-${(j:-:)complete}"
+  fi
+
+  # Mid-word: anchor on the partial segment (e.g. "omarchy aud<TAB>" -> audio).
+  if [[ -n $last ]]; then
+    for file in "$bin_dir"/"$prefix"-"$last"*(N.); do
+      basename_entry="${file##*/}"
+      rest="${basename_entry#"$prefix"-}"
+      next="${rest%%-*}"
+      if [[ -n $next && -z ${seen[$next]:-} ]]; then
+        seen[$next]=1
+        candidates+=("$next")
+      fi
+    done
+  else
+    # Full segment boundary: complete the next level (e.g. "omarchy audio<TAB>").
+    for file in "$bin_dir"/"$prefix"-*(N.); do
+      basename_entry="${file##*/}"
+      rest="${basename_entry#"$prefix"-}"
+      next="${rest%%-*}"
+      if [[ -n $next && -z ${seen[$next]:-} ]]; then
+        seen[$next]=1
+        candidates+=("$next")
+      fi
+    done
+  fi
+
+  if (( CURRENT == 2 )); then
+    candidates+=("commands")
+  fi
+
+  if [[ ${words[2]:-} == "commands" ]] && (( CURRENT >= 3 )); then
+    candidates+=("--all" "--json" "--markdown" "--check")
+  fi
+
+  if (( ${#candidates[@]} == 0 )); then
+    local command_prefix command_path first_arg_index n j
+    for ((n = CURRENT - 1; n >= 1; n--)); do
+      command_prefix="omarchy"
+      for ((j = 2; j <= n; j++)); do
+        part="${words[j]}"
+        [[ -z $part || $part == -* ]] && continue
+        command_prefix+="-$part"
+      done
+
+      command_path="$bin_dir/$command_prefix"
+      if [[ -x $command_path ]]; then
+        first_arg_index=$((n + 1))
+        break
+      fi
+    done
+
+    if [[ -n ${command_path:-} && -x $command_path ]]; then
+      local args spec alt token actual alts value match current_arg_index
+      args=$(grep -m 1 '^# omarchy:args=' "$command_path" 2>/dev/null)
+      args="${args#*omarchy:args=}"
+      current_arg_index=$((CURRENT - first_arg_index))
+
+      alts="${args// | /$'\n'}"
+      while IFS= read -r alt; do
+        read -r -A spec <<<"$alt"
+        match=true
+
+        for ((j = 1; j < current_arg_index; j++)); do
+          token="${spec[j]:-}"
+          actual="${words[first_arg_index + j]:-}"
+          if [[ -z $token ]]; then
+            match=false
+            break
+          fi
+
+          if [[ $token == \<*\> || $token == \[*\] ]]; then
+            value="${token#<}"
+            value="${value#\[}"
+            value="${value%>}"
+            value="${value%\]}"
+            if [[ $value == *"|"* ]]; then
+              [[ " ${value//|/ } " == *" $actual "* ]] || match=false
+            fi
+          elif [[ $token != "$actual" ]]; then
+            match=false
+          fi
+        done
+
+        [[ $match == true ]] || continue
+
+        token="${spec[current_arg_index + 1]:-}"
+        [[ -n $token ]] || continue
+
+        if [[ $token == \<*\> || $token == \[*\] ]]; then
+          value="${token#<}"
+          value="${value#\[}"
+          value="${value%>}"
+          value="${value%\]}"
+          if [[ $value == *"|"* ]]; then
+            read -r -A spec <<<"${value//|/ }"
+            for actual in "${spec[@]}"; do
+              [[ -n ${seen[$actual]:-} ]] && continue
+              seen[$actual]=1
+              candidates+=("$actual")
+            done
+          else
+            [[ -n ${seen[$token]:-} ]] && continue
+            seen[$token]=1
+            candidates+=("$token")
+          fi
+        else
+          [[ -n ${seen[$token]:-} ]] && continue
+          seen[$token]=1
+          candidates+=("$token")
+        fi
+      done <<<"$alts"
+    fi
+  fi
+
+  if (( ${#candidates[@]} > 0 )); then
+    compadd -Q -a candidates
+  fi
+}

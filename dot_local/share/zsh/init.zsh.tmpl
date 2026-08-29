@@ -8,6 +8,16 @@ if command -v fzf &> /dev/null; then
   fi
 fi
 
+{{ if .is_linux }}
+if command -v try &> /dev/null; then
+  try() {
+    unfunction try
+    eval "$(SHELL=/bin/zsh command try init ~/Work/tries)"
+    try "$@"
+  }
+fi
+{{ end }}
+
 {{ if .is_mac }}
 eval "$(/opt/homebrew/bin/brew shellenv)"
 {{ end }}

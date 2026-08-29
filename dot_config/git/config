@@ -1,7 +1,7 @@
 [user]
     name = onlychen120
     email = chennanxing@proton.me
-    signingkey = ~/.ssh/github.pub
+    signingkey = ~/.ssh/github_id.pub
 [init]
     defaultBranch = main
 [pull]

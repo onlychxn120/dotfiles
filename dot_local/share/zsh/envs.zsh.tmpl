@@ -29,12 +29,24 @@ export PNPM_HOME="$HOME/Library/pnpm"
 
 {{ else }}
 
-# Always include OMARCHY_PATH - needed for all shell types (scripts, cron, etc.)
-export OMARCHY_PATH=/usr/share/omarchy
-export PATH=$OMARCHY_PATH/bin:$PATH:$HOME/.local/bin
+# Omarchy env bootstrap - single source of truth for OMARCHY_PATH and PATH.
+# Idempotent; re-sourcing here covers SSH and other non-login zsh sessions.
+[ -r "$HOME/.local/share/zsh/env-bootstrap" ] && . "$HOME/.local/share/zsh/env-bootstrap"
 
-#opencode
-export PATH=$HOME/.opencode/bin:$PATH
+# Used by terminal programs (like gh) to open URLs detached from the terminal.
+# Shell-scoped on purpose: exporting BROWSER session-wide makes xdg-settings
+# refuse to change the default browser.
+export BROWSER="${BROWSER:-omarchy-launch-browser}"
+
+# /etc/profile.d/locale.sh only runs for login shells. Zsh started by SSH or
+# herdr's remote bridge misses it and lands in the C locale. Mirror it.
+if [ -z "${LANG:-}" ]; then
+  [ -r /etc/locale.conf ] && . /etc/locale.conf
+  LANG="${LANG:-C.UTF-8}"
+  export LANG LANGUAGE LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY \
+    LC_MESSAGES LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT \
+    LC_IDENTIFICATION
+fi
 
 # pnpm
 export PNPM_HOME="$HOME/.local/share/pnpm"

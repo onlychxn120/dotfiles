@@ -45,13 +45,31 @@ alias ....='cd ../../..'
 # Tools
 alias cuned='g++ --std=c++11'
 alias gst='g++ --std=c++20'
+{{ if .is_linux }}
+# c doubles as the AI launcher used by the tdl/hdl layouts on omarchy
+alias c='opencode --auto'
+{{ else }}
 alias c='bat'
+{{ end }}
 alias oc='opencode'
 alias d='docker'
 alias t='tmux attach || tmux new -s Work'
 alias loadconda='eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"'
 n() { if [ "$#" -eq 0 ]; then command nvim . ; else command nvim "$@"; fi; }
 alias p='python3'
+
+{{ if .is_linux }}
+# Omarchy agent aliases
+alias a='omarchy-agent --inline'
+alias cx='claude --permission-mode auto'
+alias cy='codex --approve-for-me'
+alias r='rails'
+alias h='herdr'
+alias ic='tdl c'
+alias ix='tdl cx'
+alias icx='tdl c cx'
+alias mup='MISE_MINIMUM_RELEASE_AGE=0 mise up'
+{{ end }}
 
 # Git
 alias g='git'

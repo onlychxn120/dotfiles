@@ -10,6 +10,9 @@ fi
 source $HOME/.local/share/zsh/aliases.zsh
 source $HOME/.local/share/zsh/shell.zsh
 source $HOME/.local/share/zsh/init.zsh
+{{ if .is_linux }}
+source $HOME/.local/share/zsh/functions.zsh
+{{ end }}
 
 fpath=(
 {{ if .is_mac }}
