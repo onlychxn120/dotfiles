@@ -82,7 +82,26 @@ return {
 		local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 		require("mason-lspconfig").setup({
-			ensure_installed = {},
+			ensure_installed = {
+				"basedpyright",
+				"ts_ls",
+				"tailwindcss",
+				"ruff",
+				"rust_analyzer",
+				"lua_ls",
+				"astro",
+				"biome",
+				"clangd",
+				"cssls",
+				"css_variables",
+				"cssmodules_ls",
+				"gopls",
+				"html",
+				"jsonls",
+				"marksman",
+				"stylua",
+				"tinymist",
+			},
 			handlers = {
 				function(server_name)
 					require("lspconfig")[server_name].setup({
