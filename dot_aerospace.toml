@@ -1,4 +1,3 @@
-
 config-version = 2
 
 after-startup-command = []
@@ -96,4 +95,3 @@ on-mode-changed = []
 8 = 2
 9 = 2
 10 = 2
-

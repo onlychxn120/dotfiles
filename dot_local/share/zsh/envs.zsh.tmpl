@@ -52,6 +52,6 @@ fi
 export PNPM_HOME="$HOME/.local/share/pnpm"
 {{ end }}
 case ":$PATH:" in
-*":$PNPM_HOME:"*) ;;
-*) export PATH="$PNPM_HOME:$PATH" ;;
+*":$PNPM_HOME/bin:"*) ;;
+*) export PATH="$PNPM_HOME/bin:$PNPM_HOME:$PATH" ;;
 esac
