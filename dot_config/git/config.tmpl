@@ -1,7 +1,11 @@
 [user]
     name = onlychxn120
     email = chennanxing@proton.me
+    {{ if .is_mac }}
+    signingkey = ~/.ssh/github.pub
+    {{ else }}
     signingkey = ~/.ssh/github_id.pub
+    {{ end }}
 [init]
     defaultBranch = main
 [pull]
