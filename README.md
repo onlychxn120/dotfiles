@@ -8,13 +8,15 @@ Everything is built from templates that switch on the OS, so the same repo drive
 
 | Path | Target | Notes |
 |---|---|---|
-| `dot_zshrc.tmpl` | `~/.zshrc` | Interactive zsh: plugins, completions, powerlevel10k |
+| `dot_zshrc.tmpl` | `~/.zshrc` | Interactive zsh: plugins, completions, Starship prompt |
 | `dot_zprofile` | `~/.zprofile` | Login-shell hook |
 | `dot_zshenv` | `~/.zshenv` | Sources `~/.local/share/zsh/envs.zsh` for every shell |
 | `dot_local/share/zsh/envs.zsh.tmpl` | `~/.local/share/zsh/envs.zsh` | Env vars, editor, PATH, OS-specific setup |
 | `dot_local/share/zsh/aliases.zsh.tmpl` | `~/.local/share/zsh/aliases.zsh` | Aliases (OS-aware) |
 | `dot_local/share/zsh/init.zsh.tmpl` | `~/.local/share/zsh/init.zsh` | History options & general init |
 | `dot_local/share/zsh/shell.zsh` | `~/.local/share/zsh/shell.zsh` | Keybindings, options |
+| `dot_local/share/zsh/prompt.zsh` | `~/.local/share/zsh/prompt.zsh` | Initializes Starship |
+| `dot_local/share/zsh/starship.toml` | `~/.local/share/zsh/starship.toml` | Starship theme (Tokyo Night) |
 | `dot_local/share/zsh/functions.zsh` | `~/.local/share/zsh/functions.zsh` | Linux only: sources `fns/*` |
 | `dot_local/share/zsh/fns/*` | `~/.local/share/zsh/fns/*` | Linux only: helper commands (`tdl`, `hdl`, `rsw`, SSH/tmux helpers, …) |
 | `dot_local/share/zsh/completions/_omarchy` | `~/.local/share/zsh/completions/_omarchy` | Linux only: `omarchy` tab-completion |
@@ -84,7 +86,7 @@ chsh -s "$(command -v zsh)"
 
 Log out and back in (or open a new terminal) to confirm.
 
-### 6. Install zsh plugins and powerlevel10k
+### 6. Install zsh plugins and Starship
 
 The `.zshrc` sources plugins from `~/.local/share/zsh/` — they are **not** part of this repo, so clone them once:
 
@@ -94,16 +96,21 @@ git clone --depth 1 https://github.com/romkatv/zsh-defer          "$HOME/.local/
 git clone --depth 1 https://github.com/Aloxaf/fzf-tab             "$HOME/.local/share/zsh/plugins/fzf-tab"
 git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions "$HOME/.local/share/zsh/plugins/zsh-autosuggestions"
 git clone --depth 1 https://github.com/zdharma-continuum/fast-syntax-highlighting "$HOME/.local/share/zsh/plugins/fast-syntax-highlighting"
-git clone --depth 1 https://github.com/romkatv/powerlevel10k      "$HOME/.local/share/zsh/powerlevel10k"
 ```
 
-### 7. (Optional) Configure powerlevel10k
+Install the Starship binary:
 
 ```bash
-p10k configure
+# macOS
+brew install starship
+
+# Arch Linux
+sudo pacman -S starship
 ```
 
-writes `~/.p10k.zsh`, which `.zshrc` sources automatically.
+### 7. Prompt theme
+
+The Starship theme lives in `~/.local/share/zsh/starship.toml` and is deployed by chezmoi. No interactive setup is required — edit that file and run `chezmoi apply` to change the prompt.
 
 ## After installing
 
@@ -137,7 +144,7 @@ chezmoi cd                  # jump into ~/.config/dotfiles
 ## Troubleshooting
 
 - **Completion not picking up:** start a fresh shell, or force a reindex with `rm ~/.zcompdump*`.
-- **Old values after editing configs:** `exec zsh` or open a new terminal; `~/.p10k.zsh` is only sourced if present.
+- **Old values after editing configs:** `exec zsh` or open a new terminal.
 - **`chezmoi apply` refuses to overwrite:** your files pre-date chezmoi. Back them up first, then use `chezmoi apply --force`.
 
 ## See also

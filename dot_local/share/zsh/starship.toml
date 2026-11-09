@@ -1,0 +1,147 @@
+# Starship prompt — Tokyo Night, rounded two-line theme
+# Loaded from ~/.local/share/zsh/prompt.zsh
+
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = true
+command_timeout = 1000
+scan_timeout = 30
+palette = "tokyonight"
+
+# Directory on the left, environments after it, then git.
+format = "$directory $python$nodejs$rust$golang$lua$bun$conda$docker_context$nix_shell$git_branch$git_status \n$status$cmd_duration$character"
+
+[palettes.tokyonight]
+bg = "#1a1b26"
+fg = "#c0caf5"
+blue = "#7aa2f7"
+cyan = "#7dcfff"
+purple = "#bb9af7"
+green = "#9ece6a"
+yellow = "#e0af68"
+orange = "#ff9e64"
+red = "#f7768e"
+muted = "#565f89"
+
+[directory]
+format = "[   $path ]($style)[$read_only]($read_only_style)"
+style = "bold blue"
+read_only_style = "bold blue"
+read_only = " "
+truncation_length = 4
+truncate_to_repo = false
+use_os_path_sep = false
+home_symbol = "~"
+
+[python]
+format = '[ $symbol$pyenv_prefix($version )($virtualenv )]($style)'
+style = "cyan"
+
+[nodejs]
+format = "[ $symbol($version )]($style)"
+style = "green"
+
+[rust]
+format = "[ $symbol($version )]($style)"
+style = "orange"
+
+[golang]
+format = "[ $symbol($version )]($style)"
+style = "cyan"
+
+[lua]
+format = "[ $symbol($version )]($style)"
+style = "blue"
+
+[bun]
+format = "[ $symbol($version )]($style)"
+style = "yellow"
+
+[conda]
+format = "[ $symbol$environment ]($style)"
+style = "cyan"
+
+[docker_context]
+format = "[ $symbol$context ]($style)"
+style = "blue"
+only_with_files = true
+
+[nix_shell]
+format = "[ $symbol$state( \\($name\\))]($style)"
+style = "blue"
+
+# mise "health" is noisy and does not show tool versions; the language modules above do.
+[mise]
+disabled = true
+
+# Kubernetes runs kubectl on every prompt; enable if you use it.
+[kubernetes]
+disabled = true
+format = "[ $symbol$context( \\($namespace\\))]($style)"
+style = "purple"
+
+[git_branch]
+symbol = ""
+format = "[│](fg:muted) [$symbol $branch(:$remote_branch)]($style) "
+style = "bold purple"
+truncation_length = 32
+
+[git_status]
+format = '([$all_status$ahead_behind ]($style))'
+style = "bold yellow"
+conflicted = "${count} "
+ahead = "↑${count} "
+behind = "↓${count} "
+diverged = "↕${count} "
+untracked = "?${count} "
+stashed = "${count} "
+modified = "?${count} "
+staged = "+${count} "
+renamed = "${count} "
+deleted = "${count} "
+
+# Line additions/deletions. Enable for +N/-N line counts (may be slow in huge repos).
+[git_metrics]
+disabled = true
+format = "([+$added]($added_style) )([-$deleted]($deleted_style) )"
+added_style = "green"
+deleted_style = "red"
+
+[status]
+disabled = false
+symbol = " "
+format = "[$symbol$status]($style) "
+style = "bold red"
+
+[cmd_duration]
+min_time = 2000
+format = "[  $duration]($style) "
+style = "bold yellow"
+
+[jobs]
+symbol = ""
+format = "[$symbol $number]($style) "
+style = "bold blue"
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+vimcmd_symbol = "[❮](bold green)"
+
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[time]
+disabled = true
+
+[os]
+disabled = true
+
+[shell]
+disabled = true
+
+[package]
+disabled = true

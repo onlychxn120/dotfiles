@@ -1,8 +1,4 @@
 # zmodload zsh/zprof
-# p10k instant prompt
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
 # .zshrc - Interactive shell configuration
 [[ ! -o interactive ]] && return
@@ -59,8 +55,7 @@ source $HOME/.local/share/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
 source $HOME/.local/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/.local/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 
-source $HOME/.local/share/zsh/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+source $HOME/.local/share/zsh/prompt.zsh
 
 typeset -U PATH path FPATH fpath
 # zprof

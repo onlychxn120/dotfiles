@@ -36,7 +36,11 @@ return {
 		})
 
 		vim.diagnostic.config({
-			virtual_text = false,
+			virtual_text = {
+				prefix = "●",
+				spacing = 4,
+				source = "if_many",
+			},
 			signs = {
 				text = {
 					[vim.diagnostic.severity.ERROR] = " ",
@@ -56,27 +60,29 @@ return {
 
 		vim.api.nvim_create_autocmd("ColorScheme", {
 			callback = function()
-				vim.cmd([[
-          highlight DiagnosticVirtualTextError guibg=NONE guifg=#FF6C6B
-          highlight DiagnosticVirtualTextWarn  guibg=NONE guifg=#ECBE7B
-          highlight DiagnosticVirtualTextInfo  guibg=NONE guifg=#51AFEF
-          highlight DiagnosticVirtualTextHint  guibg=NONE guifg=#A9A1E1
-          highlight DiagnosticUnderlineError gui=undercurl guibg=NONE
-          highlight DiagnosticUnderlineWarn  gui=underdashed guibg=NONE
-          highlight DiagnosticUnderlineInfo  gui=underdotted guibg=NONE
-          highlight DiagnosticUnderlineHint  gui=NONE guibg=NONE
-          highlight NormalFloat guibg=NONE
-          highlight FloatBorder guibg=NONE guifg=#888888
-          highlight FloatTitle guibg=NONE
-          highlight FloatFooter guibg=NONE
-          highlight DiagnosticFloatingError guibg=NONE guifg=#FF6C6B
-          highlight DiagnosticFloatingWarn  guibg=NONE guifg=#ECBE7B
-          highlight DiagnosticFloatingInfo  guibg=NONE guifg=#51AFEF
-          highlight DiagnosticFloatingHint  guibg=NONE guifg=#A9A1E1
-        ]])
+				-- Textos virtuales
+				vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { bg = "NONE", fg = "#FF6C6B" })
+				vim.api.nvim_set_hl(0, "DiagnosticVirtualTextWarn", { bg = "NONE", fg = "#ECBE7B" })
+				vim.api.nvim_set_hl(0, "DiagnosticVirtualTextInfo", { bg = "NONE", fg = "#51AFEF" })
+				vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint", { bg = "NONE", fg = "#A9A1E1" })
+
+				-- Subrayados (usando 'sp' para colorear la línea y 'undercurl'/'underline' como booleanos)
+				vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { undercurl = true, sp = "#FF6C6B" })
+				vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn", { underdashed = true, sp = "#ECBE7B" })
+				vim.api.nvim_set_hl(0, "DiagnosticUnderlineInfo", { underdotted = true, sp = "#51AFEF" })
+				vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { underline = true, sp = "#A9A1E1" })
+
+				-- Ventanas flotantes
+				vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+				vim.api.nvim_set_hl(0, "FloatBorder", { bg = "NONE", fg = "#888888" })
+				vim.api.nvim_set_hl(0, "FloatTitle", { bg = "NONE" })
+				vim.api.nvim_set_hl(0, "FloatFooter", { bg = "NONE" })
+				vim.api.nvim_set_hl(0, "DiagnosticFloatingError", { bg = "NONE", fg = "#FF6C6B" })
+				vim.api.nvim_set_hl(0, "DiagnosticFloatingWarn", { bg = "NONE", fg = "#ECBE7B" })
+				vim.api.nvim_set_hl(0, "DiagnosticFloatingInfo", { bg = "NONE", fg = "#51AFEF" })
+				vim.api.nvim_set_hl(0, "DiagnosticFloatingHint", { bg = "NONE", fg = "#A9A1E1" })
 			end,
 		})
-
 		require("mason").setup()
 
 		local capabilities = require("blink.cmp").get_lsp_capabilities()
