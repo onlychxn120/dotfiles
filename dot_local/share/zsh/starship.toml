@@ -24,7 +24,7 @@ red = "#f7768e"
 muted = "#565f89"
 
 [directory]
-format = "[   $path ]($style)[$read_only]($read_only_style)"
+format = "[  $path ]($style)[$read_only]($read_only_style)"
 style = "bold blue"
 read_only_style = "bold blue"
 read_only = " "
