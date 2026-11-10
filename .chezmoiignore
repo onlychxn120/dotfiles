@@ -12,3 +12,8 @@ LICENSE
 .local/share/zsh/functions.zsh
 .local/share/zsh/completions/_omarchy
 {{ end }}
+
+{{/* Omarchy is Arch-only; skip its dispatcher completion elsewhere. */}}
+{{ if and .is_linux (not .is_omarchy) }}
+.local/share/zsh/completions/_omarchy
+{{ end }}

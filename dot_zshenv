@@ -1,1 +1,5 @@
 source $HOME/.local/share/zsh/envs.zsh
+
+# Ubuntu's /etc/zsh/zshrc runs a global compinit before ~/.zshrc can add
+# ~/.local/share/zsh/completions to fpath. Skip it; ~/.zshrc owns compinit.
+skip_global_compinit=1

@@ -22,17 +22,19 @@ fpath=(
 autoload -Uz compinit
 setopt extended_glob
 
+local compdump=${ZDOTDIR:-$HOME}/.zcompdump
 local compdump_files=(${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24))
+local newest_completion=($HOME/.local/share/zsh/completions/*(Nom[1]))
 
-if [[ ${#compdump_files} -gt 0 || ! -f ${ZDOTDIR:-$HOME}/.zcompdump ]]; then
+if [[ ${#compdump_files} -gt 0 || ! -f $compdump || ( ${#newest_completion} -gt 0 && $newest_completion[1] -nt $compdump ) ]]; then
   compinit
-  touch ${ZDOTDIR:-$HOME}/.zcompdump
+  touch $compdump
 else
   compinit -C
 fi
 
-if [[ -s ${ZDOTDIR:-$HOME}/.zcompdump ]] && (! [[ -s ${ZDOTDIR:-$HOME}/.zcompdump.zwc ]] || [[ ${ZDOTDIR:-$HOME}/.zcompdump -nt ${ZDOTDIR:-$HOME}/.zcompdump.zwc ]]); then
-  zcompile ${ZDOTDIR:-$HOME}/.zcompdump
+if [[ -s $compdump ]] && (! [[ -s $compdump.zwc ]] || [[ $compdump -nt $compdump.zwc ]]); then
+  zcompile $compdump
 fi
 
 if command -v fzf &> /dev/null; then
